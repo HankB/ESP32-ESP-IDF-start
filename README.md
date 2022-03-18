@@ -8,6 +8,21 @@ Provide a foundation for future projects that run on an ESP32 using the ESP-IDF 
 
 This combination is proving to be a bit more difficult to get going than some of the Arduino examples but should prove more useful in the long run. Or not.
 
+## Status
+
+* LED task blinking
+* WiFi associates
+* MQTT working
+* NTP not yet
+
+### TODO
+
+* Rework the example code for MQTT to do something more useful (than just subscribe and publish to itself.)
+* Determine how to publish from other threads and provide an internal API for that.
+* Test the WiFi and MQTT code to provide error recovery on disconnect.
+    * AP restert
+    * MQTT broker restart
+
 ## Process
 
 Development will be using PlatformIO driven by VS Code. There are ready made examples that share a lot of code in `connect.c` (and perhaps other files) and it will be my task to extract what is needed for this specific project. General steps will include
