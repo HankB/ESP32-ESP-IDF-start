@@ -15,11 +15,23 @@ Development will be using PlatformIO driven by VS Code. There are ready made exa
 1. Copy the files from `.../examples/get-started/sample_project` to this repo and build (except the `README.md)`. (`blink` and `hello_world` projects in the same directory may be useful references as well.)
 1. Open with PlatformIO. No Joy. Wants a `platformio.ini`.
 1. Create with PlatformIO. Still not so good. Created the inside the git directory. I guess I can merge my `README.md` into the PlatformIO project, destroy the Guitrhub project and then create a bare gitbub project and import Platform IO project.
+1. Abandon this and start from scratch.
 
+1. Create bare Github project.
+1. Create PlatformIO project with same name.
+1. Follow instructions from Github bare project redirect to import the project into Github.
+1. project builds, ready to roll!
 
+Given a buildable project...
 
+1. Add a (FreeRTOS) task to blink an LED. Always fun to blink an LED and can be used as an indicator later.
+1. Associate with a WiFi AP and identify by host name.
+1. Add MQTT client to publish messages.
+1. Add NTP client so we know time. (Does anyboey really know what time it is? - CTA)
 
 ## Errata
+
+The sample project was pretty much abandoned. I should read the link below from "How to use example"
 
 ### From the sample project README
 
