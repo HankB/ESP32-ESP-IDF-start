@@ -1,6 +1,6 @@
 /* Starting point. Will eventually include
- * * blinking LED
- * * WiFi support - associate with AP
+ * * blinking LED (done)
+ * * WiFi support - associate with AP (done)
  * * MQTT support  - publish
  * * NTP support - synchronize time
  *
@@ -9,15 +9,15 @@
  * * station_example_main.c() from getting_started/station
  * */
 
-#include "driver/gpio.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/event_groups.h"
-#include "freertos/task.h"
-#include "esp_system.h"
-#include "esp_wifi.h"
-#include "esp_event.h"
-#include "esp_log.h"
-#include "nvs_flash.h"
+#include <driver/gpio.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/event_groups.h>
+#include <freertos/task.h>
+#include <esp_system.h>
+#include <esp_wifi.h>
+#include <esp_event.h>
+#include <esp_log.h>
+#include <nvs_flash.h>
 
 /* The following include is excluded from the git project and
    must be crafted to meet your needs. It must define
