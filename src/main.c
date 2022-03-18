@@ -19,7 +19,6 @@
 #include "esp_log.h"
 #include "nvs_flash.h"
 
-
 /* The following include is excluded from the git project and
    must be crafted to meet your needs. It must define
 
@@ -27,7 +26,6 @@
 #define  PWD "your_password"
 */
 #include "secrets.h"
-
 
 // LED ========================================
 
@@ -42,13 +40,14 @@ void setup_LED(gpio_num_t gpio)
 
 void blink_led_task(void *param)
 {
-    while(1) {
+    while (1)
+    {
         /* Blink off (output low) */
         printf("Turning off the LED\n");
         gpio_set_level(blink_led, 0);
         vTaskDelay(990 / portTICK_PERIOD_MS);
         /* Blink on (output high) */
-	    printf("Turning on the LED\n");
+        printf("Turning on the LED\n");
         gpio_set_level(blink_led, 1);
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
@@ -62,29 +61,37 @@ static EventGroupHandle_t s_wifi_event_group;
  * - we are connected to the AP with an IP
  * - we failed to connect after the maximum amount of retries */
 #define WIFI_CONNECTED_BIT BIT0
-#define WIFI_FAIL_BIT      BIT1
+#define WIFI_FAIL_BIT BIT1
 
 static const char *TAG = "wifi station";
 static const wifi_auth_mode_t threshold = WIFI_AUTH_OPEN;
 static int s_retry_count = 0;
 static const int max_retries = 10; // where is CONFIG_ESP_MAXIMUM_RETRY defined?
 
-static void event_handler(void* arg, esp_event_base_t event_base,
-                                int32_t event_id, void* event_data)
+static void event_handler(void *arg, esp_event_base_t event_base,
+                          int32_t event_id, void *event_data)
 {
-    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
+    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START)
+    {
         esp_wifi_connect();
-    } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
-        if (s_retry_count < max_retries) {
+    }
+    else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED)
+    {
+        if (s_retry_count < max_retries)
+        {
             esp_wifi_connect();
             s_retry_count++;
             ESP_LOGI(TAG, "retry to connect to the AP");
-        } else {
+        }
+        else
+        {
             xEventGroupSetBits(s_wifi_event_group, WIFI_FAIL_BIT);
         }
-        ESP_LOGI(TAG,"connect to the AP fail");
-    } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
-        ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
+        ESP_LOGI(TAG, "connect to the AP fail");
+    }
+    else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
+    {
+        ip_event_got_ip_t *event = (ip_event_got_ip_t *)event_data;
         ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
         s_retry_count = 0;
         xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
@@ -122,32 +129,37 @@ void init_wifi(void)
             /* Setting a password implies station will connect to all security modes including WEP/WPA.
              * However these modes are deprecated and not advisable to be used. Incase your Access point
              * doesn't support WPA2, these mode can be enabled by commenting below line */
-	     .threshold.authmode = threshold,
+            .threshold.authmode = threshold,
         },
     };
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
-    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config) );
-    ESP_ERROR_CHECK(esp_wifi_start() );
-    ESP_ERROR_CHECK(tcpip_adapter_set_hostname(TCPIP_ADAPTER_IF_STA ,"esp32.1"));
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
+    ESP_ERROR_CHECK(esp_wifi_start());
+    ESP_ERROR_CHECK(tcpip_adapter_set_hostname(TCPIP_ADAPTER_IF_STA, "esp32.1"));
     ESP_LOGI(TAG, "wifi_init_sta finished.");
 
     /* Waiting until either the connection is established (WIFI_CONNECTED_BIT) or connection failed for the maximum
      * number of re-tries (WIFI_FAIL_BIT). The bits are set by event_handler() (see above) */
     EventBits_t bits = xEventGroupWaitBits(s_wifi_event_group,
-            WIFI_CONNECTED_BIT | WIFI_FAIL_BIT,
-            pdFALSE,
-            pdFALSE,
-            portMAX_DELAY);
+                                           WIFI_CONNECTED_BIT | WIFI_FAIL_BIT,
+                                           pdFALSE,
+                                           pdFALSE,
+                                           portMAX_DELAY);
 
     /* xEventGroupWaitBits() returns the bits before the call returned, hence we can test which event actually
      * happened. */
-    if (bits & WIFI_CONNECTED_BIT) {
+    if (bits & WIFI_CONNECTED_BIT)
+    {
         ESP_LOGI(TAG, "connected to ap SSID:%s password:%s",
                  SSID, "xxx");
-    } else if (bits & WIFI_FAIL_BIT) {
+    }
+    else if (bits & WIFI_FAIL_BIT)
+    {
         ESP_LOGI(TAG, "Failed to connect to SSID:%s, password:%s",
                  SSID, "xxx");
-    } else {
+    }
+    else
+    {
         ESP_LOGE(TAG, "UNEXPECTED EVENT");
     }
 }
@@ -158,11 +170,12 @@ void app_main()
 {
     setup_LED(blink_led);
 
-    //Initialize NVS
+    // Initialize NVS
     esp_err_t ret = nvs_flash_init();
-    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
-      ESP_ERROR_CHECK(nvs_flash_erase());
-      ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
+    {
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
     }
     ESP_ERROR_CHECK(ret);
 
@@ -175,9 +188,10 @@ void app_main()
 
     // Following loop is superfluous. App continues to execute
     // even if app_main() exits
-    while(1) {
-        // Blink off (output low) 
-	    printf("looping main\n");
+    while (1)
+    {
+        // Blink off (output low)
+        printf("looping main\n");
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 }
