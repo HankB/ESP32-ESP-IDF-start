@@ -23,8 +23,8 @@
 /* The following include is excluded from the git project and
    must be crafted to meet your needs. It must define
 
-static const char* "your_SSID";
-static const char* "your_password";
+#define SSID "your_SSID"
+#define  PWD "your_password"
 */
 #include "secrets.h"
 

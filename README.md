@@ -29,6 +29,16 @@ Given a buildable project...
 1. Add MQTT client to publish messages.
 1. Add NTP client so we know time. (Does anyboey really know what time it is? - CTA)
 
+## Requirements
+
+* Full PlatformIO and tool chain installation, and using VS Code.
+* User provided `include/secrets.h` that has definitions for
+
+```text
+#define SSID "your_SSID"
+#define  PWD "your_password"
+```
+
 ## Errata
 
 The sample project was pretty much abandoned. I should read the link below from "How to use example"
