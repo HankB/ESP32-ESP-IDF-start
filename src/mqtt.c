@@ -28,7 +28,7 @@
 #include "mqtt.h"
 
 static const char *TAG = "mqtt";
-static const char *broker = "mqtt://olive.localhost:1883";
+static const char *broker = "mqtt://olive.localdomain:1883";
 
 static void log_error_if_nonzero(const char *message, int error_code)
 {
@@ -107,7 +107,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 void mqtt_app_start(void)
 {
 
-    esp_log_level_set("*", ESP_LOG_INFO);
+    esp_log_level_set("*", ESP_LOG_VERBOSE);
     esp_log_level_set("MQTT_CLIENT", ESP_LOG_VERBOSE);
     esp_log_level_set("MQTT_EXAMPLE", ESP_LOG_VERBOSE);
     esp_log_level_set("TRANSPORT_BASE", ESP_LOG_VERBOSE);
