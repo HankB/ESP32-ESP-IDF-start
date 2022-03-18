@@ -21,6 +21,8 @@
 #include "wifi.h"
 #include "mqtt.h"
 
+static const bool chatty=false;
+
 // LED ========================================
 
 static const gpio_num_t blink_led = 2;
@@ -37,11 +39,11 @@ void blink_led_task(void *param)
     while (1)
     {
         /* Blink off (output low) */
-        printf("Turning off the LED\n");
+        if(chatty) printf("Turning off the LED\n");
         gpio_set_level(blink_led, 0);
         vTaskDelay(990 / portTICK_PERIOD_MS);
         /* Blink on (output high) */
-        printf("Turning on the LED\n");
+        if(chatty) printf("Turning on the LED\n");
         gpio_set_level(blink_led, 1);
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
@@ -78,7 +80,7 @@ void app_main()
     while (1)
     {
         // Blink off (output low)
-        printf("looping main\n");
+        if(chatty) printf("looping main\n");
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 }
