@@ -1,7 +1,7 @@
 /* Starting point. Will eventually include
  * * blinking LED (done)
  * * WiFi support - associate with AP (done)
- * * MQTT support  - publish
+ * * MQTT support  - publish (added, not working)
  * * NTP support - synchronize time
  *
  * Some code shamelessly copied from some examples
@@ -19,6 +19,7 @@
 #include <nvs_flash.h>
 
 #include "wifi.h"
+#include "mqtt.h"
 
 // LED ========================================
 
@@ -70,6 +71,7 @@ void app_main()
     // start WiFi
     ESP_LOGI(TAG, "ESP_WIFI_MODE_STA");
     init_wifi();
+    mqtt_app_start();
 
     // Following loop is superfluous. App continues to execute
     // even if app_main() exits
