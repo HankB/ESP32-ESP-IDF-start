@@ -108,6 +108,8 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     }
 }
 
+static esp_mqtt_client_handle_t client;
+
 void mqtt_app_start(void)
 {
 
@@ -123,8 +125,17 @@ void mqtt_app_start(void)
         .uri = broker,
     };
 
-    esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);
+    client = esp_mqtt_client_init(&mqtt_cfg);
     /* The last argument may be used to pass data to the event handler, in this example mqtt_event_handler */
     ESP_ERROR_CHECK(esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL));
     ESP_ERROR_CHECK(esp_mqtt_client_start(client));
+}
+
+// wrapper to publish
+void mqtt_publish(const char* topic, const char* payload)
+{
+    if(topic == NULL )  // use default topic?
+        topic = pub_topic;
+    int msg_id = esp_mqtt_client_publish(client, topic, payload, 0, 0, 0);
+    ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
 }
