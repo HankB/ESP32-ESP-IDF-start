@@ -77,10 +77,18 @@ void app_main()
 
     // Following loop is superfluous. App continues to execute
     // even if app_main() exits
+    int loop_counter = 0;
     while (1)
     {
         // Blink off (output low)
         if(chatty) printf("looping main\n");
         vTaskDelay(1000 / portTICK_PERIOD_MS);
+        if((++loop_counter %10) == 0) 
+        {
+            static const int buf_len = 100;
+            char    uptime_buff[buf_len];
+            snprintf(uptime_buff, buf_len, "uptime %d", loop_counter);
+            mqtt_publish(NULL, uptime_buff);
+        }
     }
 }
