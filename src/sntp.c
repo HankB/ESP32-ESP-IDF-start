@@ -21,14 +21,6 @@
 
 static const char *TAG = "sntp";
 
-/* Variable holding number of times ESP32 restarted since first boot.
- * It is placed into RTC memory using RTC_DATA_ATTR and
- * maintains its value when ESP32 wakes from deep sleep.
- * 
- * Assumes that WiFi connection is already established.
- */
-RTC_DATA_ATTR static int boot_count = 0;
-
 static void obtain_time(void);
 static void initialize_sntp(void);
 

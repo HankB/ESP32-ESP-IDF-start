@@ -54,9 +54,18 @@ void blink_led_task(void *param)
 // main =======================================
 
 static const char *TAG = "esp32 main";
+/* Variable holding number of times ESP32 restarted since first boot.
+ * It is placed into RTC memory using RTC_DATA_ATTR and
+ * maintains its value when ESP32 wakes from deep sleep.
+ * 
+ * Assumes that WiFi connection is already established.
+ */
+RTC_DATA_ATTR static int boot_count = 0;
+
 
 void app_main()
 {
+    boot_count++;
     setup_LED(blink_led);
 
     // Initialize NVS
@@ -90,8 +99,8 @@ void app_main()
         {
             static const int buf_len = 100;
             char    uptime_buff[buf_len];
-            snprintf(uptime_buff, buf_len, "uptime %d, timestamp %ld",
-                    loop_counter, time(0));
+            snprintf(uptime_buff, buf_len, "uptime %d, timestamp %ld, bootcount %d",
+                    loop_counter, time(0), boot_count);
             mqtt_publish(NULL, uptime_buff);
         }
     }
