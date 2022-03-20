@@ -12,7 +12,7 @@
 
 #define SSID "your_SSID"
 #define  PWD "your_password"
-static const char * sntp_server = "pool.ntp.org";
+#define sntp_server "pfsense.localdomain"
 */
 #include "secrets.h"
 

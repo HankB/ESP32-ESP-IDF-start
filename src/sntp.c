@@ -10,6 +10,13 @@
 
 
 #include "sntp.h"
+/* The following include is excluded from the git project and
+   must be crafted to meet your needs. It must define
+
+#define SSID "your_SSID"
+#define  PWD "your_password"
+#define sntp_server "pfsense.localdomain"
+*/
 #include "secrets.h" // user provided include
 
 static const char *TAG = "sntp";

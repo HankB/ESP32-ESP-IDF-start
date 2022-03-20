@@ -20,8 +20,7 @@
 
 #include "wifi.h"
 #include "mqtt.h"
-#include "sntp.h"
-time_t init_sntp(void);
+#include "my_sntp.h"
 
 static const bool chatty=false;
 
