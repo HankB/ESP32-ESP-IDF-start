@@ -13,15 +13,16 @@ This combination is proving to be a bit more difficult to get going than some of
 * LED task blinking
 * WiFi associates
 * MQTT working
-* NTP not yet
+* NTP gets time
 
 ### TODO
 
-* Rework the example code for MQTT to do something more useful (than just subscribe and publish to itself.)
-* Determine how to publish from other threads and provide an internal API for that.
+* ~Rework the example code for MQTT to do something more useful (than just subscribe and publish to itself.)~
+* ~Determine how to publish from other threads and provide an internal API for that.~
 * Test the WiFi and MQTT code to provide error recovery on disconnect.
     * AP restert
-    * MQTT broker restart
+    * ~MQTT broker restart~
+    * Test SNTP through broker restart
 
 ## Process
 
