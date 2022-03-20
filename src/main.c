@@ -20,6 +20,8 @@
 
 #include "wifi.h"
 #include "mqtt.h"
+#include "sntp.h"
+time_t init_sntp(void);
 
 static const bool chatty=false;
 
@@ -74,6 +76,8 @@ void app_main()
     ESP_LOGI(TAG, "ESP_WIFI_MODE_STA");
     init_wifi();
     mqtt_app_start();
+    time_t t = init_sntp();
+    ESP_LOGI(TAG,"init_sntp(): %ld", t);
 
     // Following loop is superfluous. App continues to execute
     // even if app_main() exits
