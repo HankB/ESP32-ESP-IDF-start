@@ -27,7 +27,7 @@ static EventGroupHandle_t s_wifi_event_group;
 static const char *TAG = "wifi station";
 static const wifi_auth_mode_t threshold = WIFI_AUTH_OPEN;
 static int s_retry_count = 0;
-static const int max_retries = 10; // where is CONFIG_ESP_MAXIMUM_RETRY defined?
+//static const int max_retries = 0; // where is CONFIG_ESP_MAXIMUM_RETRY defined?
 
 static void event_handler(void *arg, esp_event_base_t event_base,
                           int32_t event_id, void *event_data)
@@ -38,17 +38,9 @@ static void event_handler(void *arg, esp_event_base_t event_base,
     }
     else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED)
     {
-        if (s_retry_count < max_retries)
-        {
-            esp_wifi_connect();
-            s_retry_count++;
-            ESP_LOGI(TAG, "retry to connect to the AP");
-        }
-        else
-        {
-            xEventGroupSetBits(s_wifi_event_group, WIFI_FAIL_BIT);
-        }
-        ESP_LOGI(TAG, "connect to the AP fail");
+        esp_wifi_connect();
+        s_retry_count++;
+        ESP_LOGI(TAG, "retry to connect to the AP");
     }
     else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
     {
