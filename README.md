@@ -10,6 +10,8 @@ This combination is proving to be a bit more difficult to get going than some of
 
 ## Status
 
+Everything desired for this project is complete, working and tested.
+
 * LED task blinking
 * WiFi associates
 * MQTT working
@@ -20,9 +22,16 @@ This combination is proving to be a bit more difficult to get going than some of
 * ~Rework the example code for MQTT to do something more useful (than just subscribe and publish to itself.)~
 * ~Determine how to publish from other threads and provide an internal API for that.~
 * Test the WiFi and MQTT code to provide error recovery on disconnect.
-    * AP restert
+    * ~AP restart~
     * ~MQTT broker restart~
-    * Test SNTP through broker restart
+    * Test SNTP through ntp server restart. Will test next time edge router (NTP server) is restarted.
+
+## Testing
+
+The following functional tests have been performed.
+
+* Turn AP off, leave off for a minute or so and restart. (Modified code to perform infinite WiFi reconnect attempts.)
+* Shut down and restart MQTT broker. 
 
 ## Process
 
@@ -53,11 +62,14 @@ Given a buildable project...
 ```text
 #define SSID "your_SSID"
 #define  PWD "your_password"
+#define sntp_server "your_ntp_server" 
 ```
 
 ## Errata
 
 The sample project was pretty much abandoned. I should read the link below from "How to use example"
+
+The boot_count in `main.c` is not counting up. 
 
 ### From the sample project README
 
