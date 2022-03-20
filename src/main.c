@@ -87,11 +87,12 @@ void app_main()
         // Blink off (output low)
         if(chatty) printf("looping main\n");
         vTaskDelay(1000 / portTICK_PERIOD_MS);
-        if((++loop_counter %10) == 0) 
+        if((++loop_counter %60) == 0) 
         {
             static const int buf_len = 100;
             char    uptime_buff[buf_len];
-            snprintf(uptime_buff, buf_len, "uptime %d", loop_counter);
+            snprintf(uptime_buff, buf_len, "uptime %d, timestamp %ld",
+                    loop_counter, time(0));
             mqtt_publish(NULL, uptime_buff);
         }
     }
