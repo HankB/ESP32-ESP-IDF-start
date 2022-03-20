@@ -1,6 +1,6 @@
 #ifndef WIFI_H
 #define WIFI_H
-//Stuff shared between WiFi and other C files
+//Stuff shared between wifi.c and other C files
 
 void init_wifi(void);
 
