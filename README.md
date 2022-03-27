@@ -17,6 +17,14 @@ Everything desired for this project is complete, working and tested.
 * MQTT working
 * NTP gets time
 
+### C++ migration
+
+Just creted a C++ branch with the intent to migrate this code to C++. Decision has not been made whether to keep the C branch or not. That depends on how much extra effort is required to keep both. Steps to convert to C++ are anticipated to be:
+
+1. "Soft" migration, e.g. renaming the source files `.c` -> `,cpp` and building (and fixing any errors or warnings.) 
+1. Identify C++ APIs for the ESP-IDF libraries in use and switch to them where available.
+1. Factor the code for the various facilities (e.g. WiFi, MQTT, NTP) to use standard C++ organization (e.g. classes and objects.)
+
 ### TODO
 
 * ~Rework the example code for MQTT to do something more useful (than just subscribe and publish to itself.)~
