@@ -9,7 +9,8 @@
  * * station_example_main.c from getting_started/station
  * */
 
-extern "C" {
+extern "C"
+{
 #include <driver/gpio.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/event_groups.h>
@@ -24,7 +25,7 @@ extern "C" {
 #include "mqtt.h"
 #include "my_sntp.h"
 
-static const bool chatty=false;
+static const bool chatty = false;
 
 // LED ========================================
 
@@ -42,16 +43,17 @@ void blink_led_task(void *param)
     while (1)
     {
         /* Blink off (output low) */
-        if(chatty) printf("Turning off the LED\n");
+        if (chatty)
+            printf("Turning off the LED\n");
         gpio_set_level(blink_led, 0);
         vTaskDelay(990 / portTICK_PERIOD_MS);
         /* Blink on (output high) */
-        if(chatty) printf("Turning on the LED\n");
+        if (chatty)
+            printf("Turning on the LED\n");
         gpio_set_level(blink_led, 1);
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
-
 
 // main =======================================
 
@@ -59,11 +61,10 @@ static const char *TAG = "esp32 main";
 /* Variable holding number of times ESP32 restarted since first boot.
  * It is placed into RTC memory using RTC_DATA_ATTR and
  * maintains its value when ESP32 wakes from deep sleep.
- * 
+ *
  * Assumes that WiFi connection is already established.
  */
 RTC_DATA_ATTR static int boot_count = 0;
-
 
 extern "C" void app_main()
 {
@@ -87,7 +88,7 @@ extern "C" void app_main()
     init_wifi();
     mqtt_app_start();
     time_t t = init_sntp();
-    ESP_LOGI(TAG,"init_sntp(): %ld", t);
+    ESP_LOGI(TAG, "init_sntp(): %ld", t);
 
     // Following loop is superfluous. App continues to execute
     // even if app_main() exits
@@ -95,14 +96,15 @@ extern "C" void app_main()
     while (1)
     {
         // Blink off (output low)
-        if(chatty) printf("looping main\n");
+        if (chatty)
+            printf("looping main\n");
         vTaskDelay(1000 / portTICK_PERIOD_MS);
-        if((++loop_counter %10) == 0) 
+        if ((++loop_counter % 10) == 0)
         {
             static const int buf_len = 100;
-            char    uptime_buff[buf_len];
+            char uptime_buff[buf_len];
             snprintf(uptime_buff, buf_len, "uptime %d, timestamp %ld, bootcount %d",
-                    loop_counter, time(0), boot_count);
+                     loop_counter, time(0), boot_count);
             mqtt_publish(NULL, uptime_buff);
         }
     }
