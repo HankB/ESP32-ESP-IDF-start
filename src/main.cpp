@@ -9,6 +9,7 @@
  * * station_example_main.c from getting_started/station
  * */
 
+extern "C" {
 #include <driver/gpio.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/event_groups.h>
@@ -17,6 +18,7 @@
 #include <esp_event.h>
 #include <esp_log.h>
 #include <nvs_flash.h>
+}
 
 #include "wifi.h"
 #include "mqtt.h"
@@ -26,7 +28,7 @@ static const bool chatty=false;
 
 // LED ========================================
 
-static const gpio_num_t blink_led = 2;
+static const gpio_num_t blink_led = GPIO_NUM_2;
 
 void setup_LED(gpio_num_t gpio)
 {
@@ -63,7 +65,7 @@ static const char *TAG = "esp32 main";
 RTC_DATA_ATTR static int boot_count = 0;
 
 
-void app_main()
+extern "C" void app_main()
 {
     boot_count++;
     setup_LED(blink_led);
@@ -95,7 +97,7 @@ void app_main()
         // Blink off (output low)
         if(chatty) printf("looping main\n");
         vTaskDelay(1000 / portTICK_PERIOD_MS);
-        if((++loop_counter %60) == 0) 
+        if((++loop_counter %10) == 0) 
         {
             static const int buf_len = 100;
             char    uptime_buff[buf_len];

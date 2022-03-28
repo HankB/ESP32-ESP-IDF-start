@@ -1,11 +1,14 @@
 /* Code to support WiFi related functions for this project
 */
 
+extern "C" {
 #include <freertos/FreeRTOS.h>
 #include <freertos/event_groups.h>
 #include <esp_wifi.h>
 #include <esp_event.h>
 #include <esp_log.h>
+#include <string.h>
+}
 
 /* The following include is excluded from the git project and
    must be crafted to meet your needs. It must define
@@ -75,7 +78,11 @@ void init_wifi(void)
                                                         NULL,
                                                         &instance_got_ip));
 
-    wifi_config_t wifi_config = {
+    wifi_config_t wifi_config = {};
+    strncpy((char*)wifi_config.sta.ssid, (const char*)SSID, sizeof(wifi_config.sta.ssid));
+    strncpy((char*)wifi_config.sta.password, (const char*)PWD, sizeof(wifi_config.sta.password));
+    wifi_config.sta.threshold.authmode = threshold;
+#if 0
         .sta = {
             .ssid = SSID,
             .password = PWD,
@@ -85,6 +92,7 @@ void init_wifi(void)
             .threshold.authmode = threshold,
         },
     };
+#endif
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
     ESP_ERROR_CHECK(esp_wifi_start());

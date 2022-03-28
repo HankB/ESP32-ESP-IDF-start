@@ -2,12 +2,13 @@
 * Heavily cribbed from examples/protocols/sntp/main/sntp_example_main.c
 */
 
+extern "C" {
 #include <time.h>
 #include <sys/time.h>
 #include <esp_system.h>
 #include <esp_sntp.h>
 #include <esp_log.h>
-
+}
 
 #include "sntp.h"
 /* The following include is excluded from the git project and
@@ -58,7 +59,7 @@ static void obtain_time(void)
 
     // wait for time to be set
     time_t now = 0;
-    struct tm timeinfo = { 0 };
+    struct tm timeinfo = {};
     int retry = 0;
     const int retry_count = 15;
     while (sntp_get_sync_status() == SNTP_SYNC_STATUS_RESET && ++retry < retry_count) {

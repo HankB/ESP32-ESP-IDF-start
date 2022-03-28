@@ -2,6 +2,7 @@
  * Heavily cribbed from examples/protocols/mqtt/tcp app_main.c
 */
 
+extern "C" {
 #include <stdio.h>
 #include <stdint.h>
 #include <stddef.h>
@@ -24,6 +25,7 @@
 
 #include <esp_log.h>
 #include <mqtt_client.h>
+}
 
 #include "mqtt.h"
 
@@ -52,7 +54,7 @@ static void log_error_if_nonzero(const char *message, int error_code)
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
 {
     ESP_LOGD(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
-    esp_mqtt_event_handle_t event = event_data;
+    esp_mqtt_event_handle_t event = (esp_mqtt_event_handle_t)event_data;
     esp_mqtt_client_handle_t client = event->client;
     int msg_id;
     switch ((esp_mqtt_event_id_t)event_id) {
@@ -121,13 +123,16 @@ void mqtt_app_start(void)
     esp_log_level_set("TRANSPORT", ESP_LOG_VERBOSE);
     esp_log_level_set("OUTBOX", ESP_LOG_VERBOSE);
 
-    esp_mqtt_client_config_t mqtt_cfg = {
+    /*esp_mqtt_client_config_t mqtt_cfg = {
         .uri = broker,
-    };
+    };*/
+
+    esp_mqtt_client_config_t mqtt_cfg = {};
+    mqtt_cfg.uri = broker;
 
     client = esp_mqtt_client_init(&mqtt_cfg);
     /* The last argument may be used to pass data to the event handler, in this example mqtt_event_handler */
-    ESP_ERROR_CHECK(esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL));
+    ESP_ERROR_CHECK(esp_mqtt_client_register_event(client, MQTT_EVENT_ANY, mqtt_event_handler, NULL));
     ESP_ERROR_CHECK(esp_mqtt_client_start(client));
 }
 
