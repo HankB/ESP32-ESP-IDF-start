@@ -123,10 +123,6 @@ void mqtt_app_start(void)
     esp_log_level_set("TRANSPORT", ESP_LOG_VERBOSE);
     esp_log_level_set("OUTBOX", ESP_LOG_VERBOSE);
 
-    /*esp_mqtt_client_config_t mqtt_cfg = {
-        .uri = broker,
-    };*/
-
     esp_mqtt_client_config_t mqtt_cfg = {};
     mqtt_cfg.uri = broker;
 

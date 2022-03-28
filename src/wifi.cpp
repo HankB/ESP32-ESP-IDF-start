@@ -30,7 +30,6 @@ static EventGroupHandle_t s_wifi_event_group;
 static const char *TAG = "wifi station";
 static const wifi_auth_mode_t threshold = WIFI_AUTH_OPEN;
 static int s_retry_count = 0;
-//static const int max_retries = 0; // where is CONFIG_ESP_MAXIMUM_RETRY defined?
 
 static void event_handler(void *arg, esp_event_base_t event_base,
                           int32_t event_id, void *event_data)
@@ -82,17 +81,7 @@ void init_wifi(void)
     strncpy((char*)wifi_config.sta.ssid, (const char*)SSID, sizeof(wifi_config.sta.ssid));
     strncpy((char*)wifi_config.sta.password, (const char*)PWD, sizeof(wifi_config.sta.password));
     wifi_config.sta.threshold.authmode = threshold;
-#if 0
-        .sta = {
-            .ssid = SSID,
-            .password = PWD,
-            /* Setting a password implies station will connect to all security modes including WEP/WPA.
-             * However these modes are deprecated and not advisable to be used. Incase your Access point
-             * doesn't support WPA2, these mode can be enabled by commenting below line */
-            .threshold.authmode = threshold,
-        },
-    };
-#endif
+    
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
     ESP_ERROR_CHECK(esp_wifi_start());

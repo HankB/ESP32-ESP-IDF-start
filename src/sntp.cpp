@@ -30,12 +30,6 @@ void time_sync_notification_cb(struct timeval *tv)
     ESP_LOGI(TAG, "Notification of a time synchronization event");
 }
 
-/*
-TBD add 
-    ++boot_count;
-    ESP_LOGI(TAG, "Boot count: %d", boot_count);
-*/
-
 time_t init_sntp(void)
 {
     time_t now;
