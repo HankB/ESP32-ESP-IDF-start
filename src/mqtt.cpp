@@ -63,7 +63,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
     {
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
-        msg_id = esp_mqtt_client_publish(client, pub_topic, "here", 0, 1, 0);
+        msg_id = esp_mqtt_client_publish(client, "CM/esp32.1/state", "here", 0, 1, 0);
         ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
 
         msg_id = esp_mqtt_client_subscribe(client, sub_topic, 0);
@@ -128,6 +128,9 @@ void mqtt_app_start(void)
 
     esp_mqtt_client_config_t mqtt_cfg = {};
     mqtt_cfg.uri = broker;
+    mqtt_cfg.lwt_topic = "CM/esp32.1/state";
+    mqtt_cfg.lwt_msg = "gone";
+    mqtt_cfg.lwt_msg_len = sizeof("gone");
 
     client = esp_mqtt_client_init(&mqtt_cfg);
     /* The last argument may be used to pass data to the event handler, in this example mqtt_event_handler */
