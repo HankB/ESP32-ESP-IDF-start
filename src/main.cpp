@@ -103,8 +103,14 @@ extern "C" void app_main()
         {
             static const int buf_len = 100;
             char uptime_buff[buf_len];
-            snprintf(uptime_buff, buf_len, "uptime %d, timestamp %ld, bootcount %d",
-                     loop_counter, time(0), boot_count);
+            snprintf(uptime_buff, buf_len, "uptime %d, timestamp %ld, bootcount %d, heap %d, %d, %d, %d, %d, %d",
+                    loop_counter, time(0), boot_count,
+                    heap_caps_get_free_size(MALLOC_CAP_EXEC),
+                    heap_caps_get_free_size(MALLOC_CAP_32BIT),
+                    heap_caps_get_free_size(MALLOC_CAP_8BIT),
+                    heap_caps_get_free_size(MALLOC_CAP_DMA),
+                    heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
+                    heap_caps_get_free_size(MALLOC_CAP_INTERNAL));
             mqtt_publish(NULL, uptime_buff);
         }
     }
