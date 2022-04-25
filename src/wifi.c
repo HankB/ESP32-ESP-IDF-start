@@ -27,7 +27,6 @@ static EventGroupHandle_t s_wifi_event_group;
 static const char *TAG = "wifi station";
 static const wifi_auth_mode_t threshold = WIFI_AUTH_OPEN;
 static int s_retry_count = 0;
-//static const int max_retries = 0; // where is CONFIG_ESP_MAXIMUM_RETRY defined?
 
 static void event_handler(void *arg, esp_event_base_t event_base,
                           int32_t event_id, void *event_data)
